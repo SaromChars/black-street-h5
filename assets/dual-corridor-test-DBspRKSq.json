@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "dual-corridor-test",
+  "name": "双走廊测试",
+  "difficulty": "intermediate",
+  "vehicle": "sedan_a",
+  "startLane": 0,
+  "finishOffset": 10,
+  "traffic": { "seed": 2401, "forwardPerKmPerLane": 8, "oncomingPerKmPerLane": 6, "crossPerKm": 0, "speedFactor": [0.8, 1.0] },
+  "nodes": [
+    { "id": "start", "kind": "start" },
+    { "id": "main-start", "kind": "end", "pose": { "x": 0, "y": 0, "z": 0, "yaw": 0, "grade": 0 } },
+    { "id": "main-end", "kind": "end" },
+    { "id": "merge-1", "kind": "merge" },
+    { "id": "diverge-0", "kind": "diverge" },
+    { "id": "diverge-1", "kind": "diverge" },
+    { "id": "diverge-2", "kind": "diverge" },
+    { "id": "finish", "kind": "finish" },
+    { "id": "out0-end", "kind": "end" },
+    { "id": "out2-end", "kind": "end" }
+  ],
+  "edges": [
+    {
+      "id": "main", "role": "mainline", "from": "main-start", "to": "main-end",
+      "pieces": [
+        { "type": "highwayStraight", "length": 1000 },
+        { "type": "mergeGore", "length": 120 },
+        { "type": "mergeLane", "length": 420 },
+        { "type": "highwayStraight", "length": 700 },
+        { "type": "divergeLane", "length": 300 },
+        { "type": "divergeGore", "length": 120 },
+        { "type": "highwayStraight", "length": 1500 },
+        { "type": "divergeLane", "length": 300 },
+        { "type": "divergeGore", "length": 120 },
+        { "type": "highwayStraight", "length": 1300 },
+        { "type": "divergeLane", "length": 300 },
+        { "type": "divergeGore", "length": 120 },
+        { "type": "highwayStraight", "length": 600 }
+      ]
+    },
+    {
+      "id": "ramp-in", "role": "ramp", "from": "start", "to": "merge-1",
+      "traffic": { "forwardPerKmPerLane": 10 },
+      "pieces": [
+        { "type": "rampLink", "length": 300, "params": { "innerShoulder": 0.5 } },
+        { "type": "rampLink", "length": 80, "params": { "dir": "left", "radius": 300, "innerShoulder": 0.5, "innerShoulderEnd": 0 } },
+        { "type": "rampLink", "length": 80, "params": { "dir": "right", "radius": 300, "innerShoulder": 0 } }
+      ]
+    },
+    {
+      "id": "ramp-out-0", "role": "ramp", "from": "diverge-0", "to": "out0-end",
+      "pieces": [
+        { "type": "rampLink", "length": 80, "params": { "dir": "right", "radius": 300, "innerShoulder": 0 } },
+        { "type": "rampLink", "length": 80, "params": { "dir": "left", "radius": 300, "innerShoulder": 0, "innerShoulderEnd": 0.5 } },
+        { "type": "rampLink", "length": 200, "params": { "innerShoulder": 0.5 } }
+      ]
+    },
+    {
+      "id": "ramp-out-1", "role": "ramp", "from": "diverge-1", "to": "finish",
+      "pieces": [
+        { "type": "rampLink", "length": 80, "params": { "dir": "right", "radius": 300, "innerShoulder": 0 } },
+        { "type": "rampLink", "length": 80, "params": { "dir": "left", "radius": 300, "innerShoulder": 0, "innerShoulderEnd": 0.5 } },
+        { "type": "rampLink", "length": 400, "params": { "innerShoulder": 0.5 } }
+      ]
+    },
+    {
+      "id": "ramp-out-2", "role": "ramp", "from": "diverge-2", "to": "out2-end",
+      "pieces": [
+        { "type": "rampLink", "length": 80, "params": { "dir": "right", "radius": 300, "innerShoulder": 0 } },
+        { "type": "rampLink", "length": 80, "params": { "dir": "left", "radius": 300, "innerShoulder": 0, "innerShoulderEnd": 0.5 } },
+        { "type": "rampLink", "length": 200, "params": { "innerShoulder": 0.5 } }
+      ]
+    }
+  ],
+  "connections": [
+    { "id": "merge-1", "kind": "merge", "node": "merge-1", "main": { "edge": "main", "piece": 2 }, "branch": "ramp-in", "lanes": [["r0", "a"]] },
+    { "id": "diverge-0", "kind": "diverge", "node": "diverge-0", "main": { "edge": "main", "piece": 4 }, "branch": "ramp-out-0", "lanes": [["x", "r0"]], "exitRatio": 0.15 },
+    { "id": "diverge-1", "kind": "diverge", "node": "diverge-1", "main": { "edge": "main", "piece": 7 }, "branch": "ramp-out-1", "lanes": [["x", "r0"]], "exitRatio": 0.25 },
+    { "id": "diverge-2", "kind": "diverge", "node": "diverge-2", "main": { "edge": "main", "piece": 10 }, "branch": "ramp-out-2", "lanes": [["x", "r0"]], "exitRatio": 0.15 }
+  ],
+  "route": ["ramp-in", "main", "ramp-out-1"],
+  "checkpoints": []
+}

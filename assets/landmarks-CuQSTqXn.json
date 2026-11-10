@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "attribution": "占位位置依据 OSM 候选点（ODbL）；名称为虚构，卡通占位不代表真实商号、校名或外观",
+  "landmarks": [
+    {
+      "segmentIndex": 1,
+      "s": 1246.3,
+      "side": "left",
+      "kind": "commercial",
+      "placeholder": true,
+      "name": "凤鸣广场"
+    },
+    {
+      "segmentIndex": 3,
+      "s": 5728.5,
+      "side": "left",
+      "kind": "school",
+      "placeholder": true,
+      "name": "凤凰实验学校"
+    }
+  ]
+}

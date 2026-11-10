@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "id": "mini-seg2",
+  "name": "测试路线 第2段",
+  "difficulty": "intermediate",
+  "vehicle": "sedan_a",
+  "startLane": 0,
+  "finishOffset": 10,
+  "traffic": {
+    "seed": 2401,
+    "forwardPerKmPerLane": 8,
+    "oncomingPerKmPerLane": 6,
+    "crossPerKm": 0,
+    "speedFactor": [
+      0.8,
+      1.0
+    ]
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "kind": "start",
+      "pose": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "yaw": 0,
+        "grade": 0
+      }
+    },
+    {
+      "id": "in-start",
+      "kind": "end"
+    },
+    {
+      "id": "merge-1",
+      "kind": "merge"
+    },
+    {
+      "id": "diverge-1",
+      "kind": "diverge"
+    },
+    {
+      "id": "finish",
+      "kind": "finish"
+    },
+    {
+      "id": "out1-end",
+      "kind": "end"
+    }
+  ],
+  "edges": [
+    {
+      "id": "main",
+      "role": "mainline",
+      "from": "start",
+      "to": "finish",
+      "pieces": [
+        {
+          "type": "highwayStraight",
+          "length": 1000
+        },
+        {
+          "type": "mergeGore",
+          "length": 120
+        },
+        {
+          "type": "mergeLane",
+          "length": 420
+        },
+        {
+          "type": "highwayStraight",
+          "length": 700
+        },
+        {
+          "type": "divergeLane",
+          "length": 300
+        },
+        {
+          "type": "divergeGore",
+          "length": 120
+        },
+        {
+          "type": "highwayStraight",
+          "length": 1500
+        },
+        {
+          "type": "divergeLane",
+          "length": 300
+        },
+        {
+          "type": "divergeGore",
+          "length": 120
+        },
+        {
+          "type": "highwayStraight",
+          "length": 1300
+        },
+        {
+          "type": "divergeLane",
+          "length": 300
+        },
+        {
+          "type": "divergeGore",
+          "length": 120
+        },
+        {
+          "type": "highwayStraight",
+          "length": 600
+        }
+      ]
+    },
+    {
+      "id": "ramp-in",
+      "role": "ramp",
+      "from": "in-start",
+      "to": "merge-1",
+      "traffic": {
+        "forwardPerKmPerLane": 10
+      },
+      "pieces": [
+        {
+          "type": "rampLink",
+          "length": 300,
+          "params": {
+            "innerShoulder": 0.5
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "params": {
+            "dir": "left",
+            "radius": 300,
+            "innerShoulder": 0.5,
+            "innerShoulderEnd": 0
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "params": {
+            "dir": "right",
+            "radius": 300,
+            "innerShoulder": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp-out-1",
+      "role": "ramp",
+      "from": "diverge-1",
+      "to": "out1-end",
+      "pieces": [
+        {
+          "type": "rampLink",
+          "length": 80,
+          "params": {
+            "dir": "right",
+            "radius": 300,
+            "innerShoulder": 0
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "params": {
+            "dir": "left",
+            "radius": 300,
+            "innerShoulder": 0,
+            "innerShoulderEnd": 0.5
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 400,
+          "params": {
+            "innerShoulder": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "merge-1",
+      "kind": "merge",
+      "node": "merge-1",
+      "main": {
+        "edge": "main",
+        "piece": 2
+      },
+      "branch": "ramp-in",
+      "lanes": [
+        [
+          "r0",
+          "a"
+        ]
+      ]
+    },
+    {
+      "id": "diverge-1",
+      "kind": "diverge",
+      "node": "diverge-1",
+      "main": {
+        "edge": "main",
+        "piece": 7
+      },
+      "branch": "ramp-out-1",
+      "lanes": [
+        [
+          "x",
+          "r0"
+        ]
+      ],
+      "exitRatio": 0.25
+    }
+  ],
+  "route": [
+    "main"
+  ],
+  "checkpoints": [],
+  "attribution": "测试数据",
+  "spawnOffset": 300,
+  "startCap": false
+}

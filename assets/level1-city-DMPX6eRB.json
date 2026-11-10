@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "id": "level1-city",
+  "name": "入门：社区与城市",
+  "difficulty": "beginner",
+  "vehicle": "sedan_a",
+  "startLane": 1,
+  "traffic": {
+    "seed": 101,
+    "forwardPerKmPerLane": 6,
+    "oncomingPerKmPerLane": 6,
+    "crossPerKm": 0,
+    "speedFactor": [
+      0.9,
+      1
+    ]
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "kind": "start",
+      "pose": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "yaw": 0,
+        "grade": 0
+      }
+    },
+    {
+      "id": "finish",
+      "kind": "finish"
+    }
+  ],
+  "edges": [
+    {
+      "id": "main",
+      "role": "mainline",
+      "from": "start",
+      "to": "finish",
+      "pieces": [
+        {
+          "type": "urbanStraight",
+          "length": 800,
+          "signs": [
+            {
+              "id": "speed-limit-50",
+              "type": "speed_limit_50",
+              "s": 200,
+              "side": "right",
+              "teach": {
+                "triggerS": 140,
+                "hint": "前方限速五十，请看清标志并保持安全车速",
+                "hintShort": "限速五十",
+                "eval": {
+                  "fromS": 200,
+                  "toS": 300
+                },
+                "expect": {
+                  "type": "speedMax",
+                  "kmh": 50,
+                  "mode": "atEnd"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "signalJunction",
+          "length": 200,
+          "params": {
+            "turn": "straight",
+            "greenSeconds": 120,
+            "signalOffset": 0
+          },
+          "signs": [
+            {
+              "id": "signal_ahead",
+              "type": "signal_ahead",
+              "s": 40,
+              "side": "right",
+              "teach": {
+                "triggerS": 0,
+                "hint": "前方红灯，请在停止线前停车等待",
+                "hintShort": "红灯停车",
+                "eval": {
+                  "fromS": 40,
+                  "toS": 86
+                },
+                "expect": {
+                  "type": "stopBefore",
+                  "lineS": 86
+                }
+              }
+            }
+          ],
+          "scripts": [
+            {
+              "s": 1,
+              "action": {
+                "type": "signal",
+                "nodeIndex": 0,
+                "state": "red",
+                "holdSeconds": 18
+              }
+            }
+          ]
+        },
+        {
+          "type": "schoolZone",
+          "length": 200
+        },
+        {
+          "type": "urbanCurve",
+          "length": 200,
+          "params": {
+            "radius": 250,
+            "dir": "left"
+          }
+        },
+        {
+          "type": "crosswalkStretch",
+          "length": 400,
+          "signs": [
+            {
+              "id": "crosswalk",
+              "type": "crosswalk",
+              "s": 140,
+              "side": "right",
+              "teach": {
+                "triggerS": 80,
+                "hint": "前方人行横道有行人，请停车让行",
+                "hintShort": "礼让行人",
+                "eval": {
+                  "fromS": 140,
+                  "toS": 200
+                },
+                "expect": {
+                  "type": "yieldPedestrian",
+                  "crosswalkS": 200
+                }
+              }
+            }
+          ],
+          "scripts": [
+            {
+              "s": 150,
+              "action": {
+                "type": "pedestrian",
+                "crosswalkS": 200,
+                "fromSide": "right",
+                "speed": 1.4
+              }
+            }
+          ]
+        },
+        {
+          "type": "signalJunction",
+          "length": 200,
+          "params": {
+            "turn": "right",
+            "greenSeconds": 300,
+            "redSeconds": 0.1,
+            "yellowSeconds": 0.1,
+            "crosswalk": true
+          }
+        },
+        {
+          "type": "serviceRoad",
+          "length": 600
+        },
+        {
+          "type": "urbanStraight",
+          "length": 900
+        }
+      ]
+    }
+  ],
+  "connections": [],
+  "checkpoints": [],
+  "route": [
+    "main"
+  ]
+}

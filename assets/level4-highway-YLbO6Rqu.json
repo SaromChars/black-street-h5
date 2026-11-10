@@ -1,0 +1,537 @@
+{
+  "schemaVersion": 1,
+  "id": "level4-highway",
+  "name": "高速：主线与乡道",
+  "difficulty": "challenge",
+  "vehicle": "sedan_a",
+  "startLane": 1,
+  "finishOffset": 40,
+  "mapVersion": 2,
+  "traffic": {
+    "seed": 104,
+    "forwardPerKmPerLane": 6,
+    "oncomingPerKmPerLane": 6,
+    "crossPerKm": 0,
+    "speedFactor": [
+      0.9,
+      1
+    ]
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "kind": "start"
+    },
+    {
+      "id": "main-start",
+      "kind": "end",
+      "pose": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "yaw": 0,
+        "grade": 0
+      }
+    },
+    {
+      "id": "main-end",
+      "kind": "end"
+    },
+    {
+      "id": "merge",
+      "kind": "merge"
+    },
+    {
+      "id": "exit-nav",
+      "kind": "diverge"
+    },
+    {
+      "id": "exit-next",
+      "kind": "diverge"
+    },
+    {
+      "id": "finish",
+      "kind": "finish"
+    },
+    {
+      "id": "next-end",
+      "kind": "end"
+    }
+  ],
+  "edges": [
+    {
+      "id": "ramp-in",
+      "role": "ramp",
+      "from": "start",
+      "to": "merge",
+      "pieces": [
+        {
+          "type": "urbanStraight",
+          "length": 150,
+          "speedLimitKmh": 60
+        },
+        {
+          "type": "tollPlaza",
+          "length": 60,
+          "params": {
+            "groundEntry": true
+          }
+        },
+        {
+          "type": "rampTransition",
+          "length": 100,
+          "speedLimitKmh": 60,
+          "params": {
+            "from": "city",
+            "to": "ramp"
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 180,
+          "speedLimitKmh": 80,
+          "params": {
+            "innerShoulder": 0.5
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "speedLimitKmh": 80,
+          "params": {
+            "dir": "left",
+            "radius": 300,
+            "innerShoulder": 0.5,
+            "innerShoulderEnd": 0
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "speedLimitKmh": 80,
+          "params": {
+            "dir": "right",
+            "radius": 300,
+            "innerShoulder": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "main",
+      "role": "mainline",
+      "from": "main-start",
+      "to": "main-end",
+      "pieces": [
+        {
+          "type": "highwayStraight",
+          "length": 1000
+        },
+        {
+          "type": "mergeGore",
+          "length": 120
+        },
+        {
+          "type": "mergeLane",
+          "length": 420,
+          "signs": [
+            {
+              "id": "merge",
+              "type": "merge",
+              "s": 0,
+              "side": "right",
+              "teach": {
+                "triggerS": -120,
+                "hint": "打灯并礼让主线车辆，安全汇入高速",
+                "hintShort": "打灯汇入",
+                "eval": {
+                  "fromS": -40,
+                  "toS": 410
+                },
+                "expect": {
+                  "type": "mergeWithSignal"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "highwayStraight",
+          "length": 2000,
+          "signs": [
+            {
+              "id": "min_speed",
+              "type": "min_speed",
+              "s": 180,
+              "side": "right",
+              "teach": {
+                "triggerS": 100,
+                "hint": "高速最低时速六十，保持安全速度",
+                "hintShort": "最低六十",
+                "eval": {
+                  "fromS": 180,
+                  "toS": 350
+                },
+                "expect": {
+                  "type": "minSpeed",
+                  "kmh": 60
+                }
+              }
+            }
+          ],
+          "scripts": [
+            {
+              "s": 250,
+              "action": {
+                "type": "boss",
+                "boss": "cutIn",
+                "side": "left",
+                "windowSeconds": 18
+              }
+            },
+            {
+              "s": 660,
+              "action": {
+                "type": "boss",
+                "boss": "brakeCheck",
+                "side": "left",
+                "windowSeconds": 18
+              }
+            }
+          ]
+        },
+        {
+          "type": "highwayCurve",
+          "length": 2000,
+          "params": {
+            "radius": 1600,
+            "dir": "left"
+          },
+          "signs": [
+            {
+              "id": "speed_limit_120",
+              "type": "speed_limit_120",
+              "s": 180,
+              "side": "right",
+              "teach": {
+                "triggerS": 100,
+                "hint": "高速限速一百二十，请勿超速",
+                "hintShort": "限速一百二",
+                "eval": {
+                  "fromS": 180,
+                  "toS": 450
+                },
+                "expect": {
+                  "type": "speedMax",
+                  "kmh": 120,
+                  "mode": "throughout"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "serviceArea",
+          "length": 400,
+          "signs": [
+            {
+              "id": "no_emergency_lane",
+              "type": "no_emergency_lane",
+              "s": 160,
+              "side": "right",
+              "teach": {
+                "triggerS": 100,
+                "hint": "应急车道供紧急情况使用，请保持在正常车道",
+                "hintShort": "勿占应急道",
+                "eval": {
+                  "fromS": 160,
+                  "toS": 400
+                },
+                "expect": {
+                  "type": "noEmergencyLane"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "highwayStraight",
+          "length": 1000
+        },
+        {
+          "type": "divergeLane",
+          "length": 360,
+          "signs": [
+            {
+              "id": "exit",
+              "type": "exit",
+              "s": 110,
+              "side": "right",
+              "teach": {
+                "triggerS": 0,
+                "hint": "按导航提前进入减速车道，准备驶出高速",
+                "hintShort": "减速驶出",
+                "eval": {
+                  "fromS": 110,
+                  "toS": 330
+                },
+                "expect": {
+                  "type": "exitPrepare",
+                  "bySLocal": 270
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "divergeGore",
+          "length": 120
+        },
+        {
+          "type": "highwayStraight",
+          "length": 1500
+        },
+        {
+          "type": "divergeLane",
+          "length": 300
+        },
+        {
+          "type": "divergeGore",
+          "length": 120
+        },
+        {
+          "type": "highwayStraight",
+          "length": 600
+        }
+      ]
+    },
+    {
+      "id": "ramp-out",
+      "role": "ramp",
+      "from": "exit-nav",
+      "to": "finish",
+      "pieces": [
+        {
+          "type": "rampLink",
+          "length": 80,
+          "speedLimitKmh": 80,
+          "params": {
+            "dir": "right",
+            "radius": 300,
+            "innerShoulder": 0
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "speedLimitKmh": 80,
+          "params": {
+            "dir": "left",
+            "radius": 300,
+            "innerShoulder": 0,
+            "innerShoulderEnd": 0.5
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 200,
+          "speedLimitKmh": 80,
+          "params": {
+            "innerShoulder": 0.5
+          }
+        },
+        {
+          "type": "rampTransition",
+          "length": 100,
+          "speedLimitKmh": 60,
+          "params": {
+            "from": "ramp",
+            "to": "city"
+          }
+        },
+        {
+          "type": "laneTransition",
+          "length": 80,
+          "params": {
+            "fromLanes": 2,
+            "toLanes": 1,
+            "fromBackward": 2,
+            "toBackward": 2
+          },
+          "speedLimitKmh": 60
+        },
+        {
+          "type": "laneTransition",
+          "length": 80,
+          "params": {
+            "fromLanes": 1,
+            "toLanes": 1,
+            "fromBackward": 2,
+            "toBackward": 1,
+            "roadClass": "rural",
+            "fromRoadClass": "city",
+            "toRoadClass": "rural",
+            "ruralClass": "county"
+          },
+          "speedLimitKmh": 60
+        },
+        {
+          "type": "ruralSCurve",
+          "length": 120,
+          "speedLimitKmh": 40,
+          "params": {
+            "radius": 120,
+            "builtinTeaching": false,
+            "ruralClass": "county",
+            "dir": "right"
+          },
+          "signs": [
+            {
+              "id": "rural-curve",
+              "type": "speed_limit_40",
+              "s": 20,
+              "side": "right",
+              "teach": {
+                "triggerS": 0,
+                "hint": "乡道连续弯道，请保持四十公里每小时以内并注意对向来车",
+                "hintShort": "弯道控速",
+                "eval": {
+                  "fromS": 0,
+                  "toS": 120
+                },
+                "expect": {
+                  "type": "speedMax",
+                  "kmh": 40,
+                  "mode": "throughout"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "ruralHill",
+          "length": 200,
+          "speedLimitKmh": 60,
+          "signs": [
+            {
+              "id": "downhill",
+              "type": "downhill",
+              "s": 100,
+              "side": "right",
+              "teach": {
+                "triggerS": 40,
+                "hint": "乡道下坡请控制车速，注意对向车辆",
+                "hintShort": "下坡控速",
+                "eval": {
+                  "fromS": 100,
+                  "toS": 140
+                },
+                "expect": {
+                  "type": "speedMax",
+                  "kmh": 60,
+                  "mode": "throughout"
+                }
+              }
+            }
+          ],
+          "params": {
+            "ruralClass": "village",
+            "entryRuralClass": "county"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp-next",
+      "role": "ramp",
+      "from": "exit-next",
+      "to": "next-end",
+      "pieces": [
+        {
+          "type": "rampLink",
+          "length": 80,
+          "params": {
+            "dir": "right",
+            "radius": 300,
+            "innerShoulder": 0
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "params": {
+            "dir": "left",
+            "radius": 300,
+            "innerShoulder": 0,
+            "innerShoulderEnd": 0.5
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 200,
+          "params": {
+            "innerShoulder": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "merge",
+      "kind": "merge",
+      "node": "merge",
+      "main": {
+        "edge": "main",
+        "piece": 2
+      },
+      "branch": "ramp-in",
+      "lanes": [
+        [
+          "r0",
+          "a"
+        ]
+      ]
+    },
+    {
+      "id": "exit-nav",
+      "kind": "diverge",
+      "node": "exit-nav",
+      "main": {
+        "edge": "main",
+        "piece": 7
+      },
+      "branch": "ramp-out",
+      "lanes": [
+        [
+          "x",
+          "r0"
+        ]
+      ],
+      "exitRatio": 0.25
+    },
+    {
+      "id": "exit-next",
+      "kind": "diverge",
+      "node": "exit-next",
+      "main": {
+        "edge": "main",
+        "piece": 10
+      },
+      "branch": "ramp-next",
+      "lanes": [
+        [
+          "x",
+          "r0"
+        ]
+      ],
+      "exitRatio": 0.15
+    }
+  ],
+  "checkpoints": [],
+  "route": [
+    "ramp-in",
+    "main",
+    "ramp-out"
+  ]
+}

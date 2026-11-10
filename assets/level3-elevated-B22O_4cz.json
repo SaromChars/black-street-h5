@@ -1,0 +1,512 @@
+{
+  "schemaVersion": 1,
+  "id": "level3-elevated",
+  "name": "挑战：高架与商业区",
+  "difficulty": "challenge",
+  "vehicle": "sedan_a",
+  "startLane": 1,
+  "mapVersion": 2,
+  "traffic": {
+    "seed": 103,
+    "forwardPerKmPerLane": 16,
+    "oncomingPerKmPerLane": 16,
+    "crossPerKm": 0,
+    "speedFactor": [
+      0.9,
+      1
+    ]
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "kind": "start"
+    },
+    {
+      "id": "main-start",
+      "kind": "end",
+      "pose": {
+        "x": 0,
+        "y": 10,
+        "z": 0,
+        "yaw": 0,
+        "grade": 0
+      }
+    },
+    {
+      "id": "main-end",
+      "kind": "end"
+    },
+    {
+      "id": "merge",
+      "kind": "merge"
+    },
+    {
+      "id": "exit-nav",
+      "kind": "diverge"
+    },
+    {
+      "id": "exit-next",
+      "kind": "diverge"
+    },
+    {
+      "id": "finish",
+      "kind": "finish"
+    },
+    {
+      "id": "next-end",
+      "kind": "end"
+    }
+  ],
+  "edges": [
+    {
+      "id": "ramp-in",
+      "role": "ramp",
+      "from": "start",
+      "to": "merge",
+      "traffic": {
+        "forwardPerKmPerLane": 6
+      },
+      "pieces": [
+        {
+          "type": "urbanStraight",
+          "length": 830,
+          "scripts": [
+            {
+              "s": 350,
+              "action": {
+                "type": "boss",
+                "boss": "brakeCheck",
+                "side": "left",
+                "windowSeconds": 18
+              }
+            }
+          ]
+        },
+        {
+          "type": "construction",
+          "length": 150,
+          "params": {
+            "lane": 0,
+            "builtinTeaching": false
+          },
+          "signs": [
+            {
+              "id": "construction-speed",
+              "type": "construction",
+              "s": 10,
+              "side": "right",
+              "teach": {
+                "triggerS": 0,
+                "hint": "前方施工，减速至三十公里每小时并避让封闭车道",
+                "hintShort": "施工慢行",
+                "eval": {
+                  "fromS": 0,
+                  "toS": 150
+                },
+                "expect": {
+                  "type": "speedMax",
+                  "kmh": 30,
+                  "mode": "throughout"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "signalJunction",
+          "length": 100,
+          "params": {
+            "turn": "straight",
+            "greenSeconds": 300,
+            "redSeconds": 0.1,
+            "yellowSeconds": 0.1
+          }
+        },
+        {
+          "type": "rampTransition",
+          "length": 100,
+          "speedLimitKmh": 60,
+          "params": {
+            "from": "city",
+            "to": "ramp"
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 100,
+          "speedLimitKmh": 80,
+          "params": {
+            "rise": 4,
+            "innerShoulder": 0.5,
+            "structure": "bridge"
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "speedLimitKmh": 80,
+          "params": {
+            "dir": "left",
+            "radius": 300,
+            "rise": 3,
+            "innerShoulder": 0.5,
+            "innerShoulderEnd": 0,
+            "structure": "bridge"
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "speedLimitKmh": 80,
+          "params": {
+            "dir": "right",
+            "radius": 300,
+            "rise": 3,
+            "innerShoulder": 0,
+            "structure": "bridge"
+          }
+        }
+      ]
+    },
+    {
+      "id": "main",
+      "role": "mainline",
+      "from": "main-start",
+      "to": "main-end",
+      "pieces": [
+        {
+          "type": "elevatedStraight",
+          "length": 1000
+        },
+        {
+          "type": "mergeGore",
+          "length": 120,
+          "params": {
+            "roadClass": "elevated"
+          }
+        },
+        {
+          "type": "mergeLane",
+          "length": 300,
+          "params": {
+            "roadClass": "elevated"
+          },
+          "signs": [
+            {
+              "id": "merge",
+              "type": "merge",
+              "s": 0,
+              "side": "right",
+              "teach": {
+                "triggerS": -120,
+                "hint": "上高架请控速，打灯后确认主路安全再汇入",
+                "hintShort": "控速汇入",
+                "eval": {
+                  "fromS": -40,
+                  "toS": 290
+                },
+                "expect": {
+                  "type": "mergeWithSignal"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "elevatedStraight",
+          "length": 1000,
+          "scripts": [
+            {
+              "s": 350,
+              "action": {
+                "type": "boss",
+                "boss": "squeeze",
+                "side": "left",
+                "windowSeconds": 18
+              }
+            }
+          ]
+        },
+        {
+          "type": "elevatedCurve",
+          "length": 400,
+          "params": {
+            "radius": 600,
+            "dir": "left"
+          }
+        },
+        {
+          "type": "elevatedStraight",
+          "length": 650,
+          "signs": [
+            {
+              "id": "speed_limit_80",
+              "type": "speed_limit_80",
+              "s": 160,
+              "side": "right",
+              "teach": {
+                "triggerS": 100,
+                "hint": "高架保持车道与安全车距",
+                "hintShort": "保持车距",
+                "eval": {
+                  "fromS": 160,
+                  "toS": 350
+                },
+                "expect": {
+                  "type": "speedMax",
+                  "kmh": 80,
+                  "mode": "throughout"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "divergeLane",
+          "length": 200,
+          "params": {
+            "roadClass": "elevated"
+          },
+          "signs": [
+            {
+              "id": "exit",
+              "type": "exit",
+              "s": 40,
+              "side": "right",
+              "teach": {
+                "triggerS": 0,
+                "hint": "提前进入减速车道，下坡控制车速",
+                "hintShort": "减速驶出",
+                "eval": {
+                  "fromS": 40,
+                  "toS": 170
+                },
+                "expect": {
+                  "type": "exitPrepare",
+                  "bySLocal": 160
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "divergeGore",
+          "length": 120,
+          "params": {
+            "roadClass": "elevated"
+          }
+        },
+        {
+          "type": "elevatedStraight",
+          "length": 750
+        },
+        {
+          "type": "elevatedStraight",
+          "length": 750
+        },
+        {
+          "type": "divergeLane",
+          "length": 200,
+          "params": {
+            "roadClass": "elevated"
+          }
+        },
+        {
+          "type": "divergeGore",
+          "length": 120,
+          "params": {
+            "roadClass": "elevated"
+          }
+        },
+        {
+          "type": "elevatedStraight",
+          "length": 600
+        }
+      ]
+    },
+    {
+      "id": "ramp-out",
+      "role": "ramp",
+      "from": "exit-nav",
+      "to": "finish",
+      "pieces": [
+        {
+          "type": "rampLink",
+          "length": 80,
+          "speedLimitKmh": 80,
+          "params": {
+            "dir": "right",
+            "radius": 300,
+            "innerShoulder": 0,
+            "structure": "bridge"
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "speedLimitKmh": 80,
+          "params": {
+            "dir": "left",
+            "radius": 300,
+            "innerShoulder": 0,
+            "innerShoulderEnd": 0.5,
+            "structure": "bridge"
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 160,
+          "speedLimitKmh": 60,
+          "params": {
+            "rise": -6,
+            "innerShoulder": 0.5,
+            "structure": "bridge"
+          },
+          "signs": [
+            {
+              "id": "ramp-downhill",
+              "type": "speed_limit_60",
+              "s": 30,
+              "side": "right",
+              "teach": {
+                "triggerS": 0,
+                "hint": "驶出高架后是下坡匝道，请全程控制在六十公里每小时以内",
+                "hintShort": "下坡控速",
+                "eval": {
+                  "fromS": 60,
+                  "toS": 150
+                },
+                "expect": {
+                  "type": "speedMax",
+                  "kmh": 60,
+                  "mode": "throughout"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "rampLink",
+          "length": 120,
+          "speedLimitKmh": 60,
+          "params": {
+            "rise": -4,
+            "innerShoulder": 0.5,
+            "structure": "bridge"
+          }
+        },
+        {
+          "type": "rampTransition",
+          "length": 100,
+          "speedLimitKmh": 60,
+          "params": {
+            "from": "ramp",
+            "to": "service"
+          }
+        },
+        {
+          "type": "serviceRoad",
+          "length": 150
+        }
+      ]
+    },
+    {
+      "id": "ramp-next",
+      "role": "ramp",
+      "from": "exit-next",
+      "to": "next-end",
+      "pieces": [
+        {
+          "type": "rampLink",
+          "length": 80,
+          "params": {
+            "dir": "right",
+            "radius": 300,
+            "rise": -3,
+            "innerShoulder": 0,
+            "structure": "bridge"
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 80,
+          "params": {
+            "dir": "left",
+            "radius": 300,
+            "rise": -3,
+            "innerShoulder": 0,
+            "innerShoulderEnd": 0.5,
+            "structure": "bridge"
+          }
+        },
+        {
+          "type": "rampLink",
+          "length": 200,
+          "params": {
+            "rise": -4,
+            "innerShoulder": 0.5,
+            "structure": "bridge"
+          }
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "merge",
+      "kind": "merge",
+      "node": "merge",
+      "main": {
+        "edge": "main",
+        "piece": 2
+      },
+      "branch": "ramp-in",
+      "lanes": [
+        [
+          "r0",
+          "a"
+        ]
+      ]
+    },
+    {
+      "id": "exit-nav",
+      "kind": "diverge",
+      "node": "exit-nav",
+      "main": {
+        "edge": "main",
+        "piece": 6
+      },
+      "branch": "ramp-out",
+      "lanes": [
+        [
+          "x",
+          "r0"
+        ]
+      ],
+      "exitRatio": 0.25
+    },
+    {
+      "id": "exit-next",
+      "kind": "diverge",
+      "node": "exit-next",
+      "main": {
+        "edge": "main",
+        "piece": 10
+      },
+      "branch": "ramp-next",
+      "lanes": [
+        [
+          "x",
+          "r0"
+        ]
+      ],
+      "exitRatio": 0.15
+    }
+  ],
+  "checkpoints": [],
+  "route": [
+    "ramp-in",
+    "main",
+    "ramp-out"
+  ]
+}

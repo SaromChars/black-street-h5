@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "id": "padtest-curves",
+  "name": "手柄测试：弯道与连续转弯",
+  "difficulty": "beginner",
+  "practice": true,
+  "startLane": 0,
+  "traffic": {
+    "seed": 7,
+    "forwardPerKmPerLane": 0,
+    "oncomingPerKmPerLane": 4
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "kind": "start",
+      "pose": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "yaw": 0,
+        "grade": 0
+      }
+    },
+    {
+      "id": "finish",
+      "kind": "finish"
+    }
+  ],
+  "edges": [
+    {
+      "id": "main",
+      "role": "mainline",
+      "from": "start",
+      "to": "finish",
+      "pieces": [
+        {
+          "type": "urbanStraight",
+          "length": 150,
+          "speedLimitKmh": 40
+        },
+        {
+          "type": "practiceTightCurve",
+          "length": 62.83185307179586,
+          "params": {
+            "dir": "left",
+            "radius": 80
+          }
+        },
+        {
+          "type": "practiceTightCurve",
+          "length": 94.2477796076938,
+          "params": {
+            "dir": "right",
+            "radius": 60
+          }
+        },
+        {
+          "type": "practiceTightCurve",
+          "length": 62.83185307179586,
+          "params": {
+            "dir": "left",
+            "radius": 80
+          }
+        },
+        {
+          "type": "signalJunction",
+          "length": 140,
+          "params": {
+            "turn": "right",
+            "stubLength": 40
+          },
+          "speedLimitKmh": 40
+        },
+        {
+          "type": "signalJunction",
+          "length": 110,
+          "params": {
+            "turn": "left",
+            "stubLength": 40
+          },
+          "speedLimitKmh": 40
+        },
+        {
+          "type": "signalJunction",
+          "length": 110,
+          "params": {
+            "turn": "left",
+            "stubLength": 40
+          },
+          "speedLimitKmh": 40
+        },
+        {
+          "type": "signalJunction",
+          "length": 110,
+          "params": {
+            "turn": "right",
+            "stubLength": 40
+          },
+          "speedLimitKmh": 40
+        },
+        {
+          "type": "urbanStraight",
+          "length": 150,
+          "speedLimitKmh": 40
+        },
+        {
+          "type": "practiceTightCurve",
+          "length": 54.97787143782138,
+          "params": {
+            "dir": "right",
+            "radius": 35
+          }
+        },
+        {
+          "type": "practiceTightCurve",
+          "length": 54.97787143782138,
+          "params": {
+            "dir": "left",
+            "radius": 35
+          }
+        },
+        {
+          "type": "urbanStraight",
+          "length": 150,
+          "speedLimitKmh": 40
+        },
+        {
+          "type": "practiceTightCurve",
+          "length": 78.53981633974483,
+          "params": {
+            "dir": "right",
+            "radius": 25
+          }
+        },
+        {
+          "type": "urbanStraight",
+          "length": 150,
+          "speedLimitKmh": 40
+        },
+        {
+          "type": "practiceTightCurve",
+          "length": 62.83185307179586,
+          "params": {
+            "dir": "left",
+            "radius": 40
+          }
+        },
+        {
+          "type": "urbanStraight",
+          "length": 150,
+          "speedLimitKmh": 40
+        }
+      ]
+    }
+  ],
+  "connections": [],
+  "checkpoints": [],
+  "route": [
+    "main"
+  ]
+}
