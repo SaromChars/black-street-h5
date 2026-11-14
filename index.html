@@ -2,6 +2,29 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      if (window.location.origin === 'https://drive.saromchars.tech') {
+        const measurementId = 'G-5H2VWYWH5C';
+        const referrerOrigin = document.referrer ? new URL(document.referrer).origin : '';
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          window.dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', measurementId, {
+          page_location: window.location.origin + '/',
+          page_referrer: referrerOrigin === 'null' ? '' : referrerOrigin,
+          allow_google_signals: false,
+          allow_ad_personalization_signals: false,
+        });
+
+        const tag = document.createElement('script');
+        tag.async = true;
+        tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+        document.head.append(tag);
+      }
+    </script>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
@@ -14,7 +37,7 @@
     <title>黑街驾驶训练</title>
     <!-- 未提供图标文件；声明空图标，避免浏览器请求 /favicon.ico 得到 404。 -->
     <link rel="icon" href="data:," />
-    <script type="module" crossorigin src="./assets/index-CSzg8Pj8.js"></script>
+    <script type="module" crossorigin src="./assets/index-BvLIQsoM.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/visibility-C3klJHth.js">
     <link rel="modulepreload" crossorigin href="./assets/vehicle-designs-Fll_6UPq.js">
     <link rel="modulepreload" crossorigin href="./assets/core-EVjw-nYV.js">
