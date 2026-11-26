@@ -171,7 +171,12 @@
         },
         {
           "type": "urbanStraight",
-          "length": 900
+          "length": 900,
+          "params": {
+            "forwardOuterWideningM": 0.75,
+            "wideningFromM": 750,
+            "wideningToM": 790
+          }
         }
       ]
     }
